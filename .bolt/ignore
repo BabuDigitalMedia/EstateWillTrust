@@ -1,0 +1,36 @@
+# Bolt ignore file - exclude these files from being processed
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Git
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Duplicate PDF files
+public/Netlaw_Client Flyer copy.pdf
+public/Netlaw_Client Flyer copy copy.pdf
+public/Netlaw_Client Flyer copy copy copy.pdf
+public/WhatsApp Image 2025-06-26 at 22.32.03.jpeg
+
+# Config files that don't need to be shown
+.bolt/config.json
+.bolt/prompt
