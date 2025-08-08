@@ -1,9 +1,30 @@
 import React, { useState } from 'react';
 import { Shield, CheckCircle, Users, FileText, Heart, Phone, Mail, Globe, Star, Lock, CreditCard, Download, Clock, Award, Scale, BookOpen, UserCheck, Building2, Briefcase, HelpCircle, ChevronDown, ChevronUp, Baby, Home, UserCog, Gift } from 'lucide-react';
-import { CheckoutButton } from './components/checkout/CheckoutButton';
 import { SuccessPage } from './components/SuccessPage';
 import { LeadMagnet } from './components/LeadMagnet';
-import { stripeProducts } from './stripe-config';
+
+const STRIPE_PAYMENT_URL = 'https://buy.stripe.com/aFa5kEfqN15i6Oz1GMcV203';
+
+interface PaymentButtonProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+function PaymentButton({ className = '', children }: PaymentButtonProps) {
+  const handleClick = () => {
+    window.location.href = STRIPE_PAYMENT_URL;
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className={`inline-flex items-center justify-center ${className}`}
+    >
+      <CreditCard className="w-5 h-5 mr-2" />
+      {children}
+    </button>
+  );
+}
 
 interface FAQItemProps {
   question: string;
@@ -259,16 +280,9 @@ function App() {
               </p>
             </div>
 
-            {stripeProducts.map((product) => (
-              <CheckoutButton
-                key={product.id}
-                priceId={product.priceId}
-                mode={product.mode}
-                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-              >
-                Start Your Will & Trust Now
-              </CheckoutButton>
-            ))}
+            <PaymentButton className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200">
+              Start Your Will & Trust Now
+            </PaymentButton>
           </div>
         </div>
       </section>
@@ -363,16 +377,9 @@ function App() {
                 </p>
               </div>
               
-              {stripeProducts.map((product) => (
-                <CheckoutButton
-                  key={product.id}
-                  priceId={product.priceId}
-                  mode={product.mode}
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-                >
-                  Answer These Questions Today
-                </CheckoutButton>
-              ))}
+              <PaymentButton className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200">
+                Answer These Questions Today
+              </PaymentButton>
             </div>
           </div>
         </div>
@@ -386,26 +393,23 @@ function App() {
             <h2 className="text-4xl font-bold mb-4">Limited Time Special Offer</h2>
             <p className="text-xl text-blue-200 mb-12">No hidden fees, no subscriptions, no ongoing costs</p>
             
-            {stripeProducts.map((product) => (
-              <div key={product.id} className="bg-white text-gray-900 rounded-2xl p-8 shadow-2xl max-w-md mx-auto">
+            <div className="bg-white text-gray-900 rounded-2xl p-8 shadow-2xl max-w-md mx-auto">
                 <div className="text-center">
                   <div className="bg-red-500 text-white px-4 py-2 rounded-full inline-block mb-4 animate-pulse">
                     <span className="font-bold">🔥 LIMITED TIME OFFER</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{product.name}</h3>
+                  <h3 className="text-2xl font-bold mb-4">Complete Will & Trust Package – Lifetime Access</h3>
                   
                   {/* Pricing with crossed out original price */}
                   <div className="mb-6">
-                    {product.originalPrice && (
-                      <div className="text-2xl text-gray-500 line-through mb-2">
-                        ${product.originalPrice.toFixed(0)}
-                      </div>
-                    )}
+                    <div className="text-2xl text-gray-500 line-through mb-2">
+                      $999
+                    </div>
                     <div className="text-5xl font-bold text-green-600 mb-2">
-                      ${product.price.toFixed(0)}
+                      $499
                     </div>
                     <div className="text-red-600 font-bold text-lg">
-                      Save ${((product.originalPrice || 0) - product.price).toFixed(0)}!
+                      Save $500!
                     </div>
                   </div>
                   
@@ -445,20 +449,15 @@ function App() {
                     </p>
                   </div>
                   
-                  <CheckoutButton
-                    priceId={product.priceId}
-                    mode={product.mode}
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200 mb-4"
-                  >
-                    🔐 Secure This Deal Now - ${product.price.toFixed(0)}
-                  </CheckoutButton>
+                  <PaymentButton className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200 mb-4">
+                    🔐 Secure This Deal Now - $499
+                  </PaymentButton>
                   <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
                     <Lock className="w-4 h-4" />
                     <span>Powered by Stripe — bank-level security</span>
                   </div>
                 </div>
-              </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -550,16 +549,9 @@ function App() {
             </div>
             
             <div className="text-center mt-12">
-              {stripeProducts.map((product) => (
-                <CheckoutButton
-                  key={product.id}
-                  priceId={product.priceId}
-                  mode={product.mode}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200"
-                >
-                  Build My Plan Today
-                </CheckoutButton>
-              ))}
+              <PaymentButton className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200">
+                Build My Plan Today
+              </PaymentButton>
             </div>
           </div>
         </div>
@@ -651,16 +643,9 @@ function App() {
                 </div>
               </div>
               
-              {stripeProducts.map((product) => (
-                <CheckoutButton
-                  key={product.id}
-                  priceId={product.priceId}
-                  mode={product.mode}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200"
-                >
-                  Get Started Now
-                </CheckoutButton>
-              ))}
+              <PaymentButton className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200">
+                Get Started Now
+              </PaymentButton>
             </div>
           </div>
         </div>
@@ -820,16 +805,9 @@ function App() {
             <div className="bg-red-500 text-white px-6 py-2 rounded-full inline-block mb-6 animate-pulse">
               <span className="font-bold">🔥 Limited Time: Save $500 Today!</span>
             </div>
-            {stripeProducts.map((product) => (
-              <CheckoutButton
-                key={product.id}
-                priceId={product.priceId}
-                mode={product.mode}
-                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-              >
-                Create My Will & Trust Now - ${product.price.toFixed(0)}
-              </CheckoutButton>
-            ))}
+            <PaymentButton className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-200">
+              Create My Will & Trust Now - $499
+            </PaymentButton>
             <p className="text-blue-200 text-sm mt-4">Join over 500,000 families who trust NetLaw for their estate planning needs</p>
           </div>
         </div>
