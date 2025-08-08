@@ -56,12 +56,10 @@ export function CheckoutButton({ priceId, mode, className = '', children }: Chec
           errorMessage = errorData.error || errorMessage;
         } catch (parseError) {
           console.error('Failed to parse error response:', parseError);
-          // Try to get response text for debugging
-          try {
-            const errorText = await response.text();
-            console.error('Error response text:', errorText);
-            errorMessage = `${errorMessage} (${response.status}: ${response.statusText})`;
-          } catch (textError) {
+          // Handle non-JSON responses (like 404 HTML pages)
+          if (response.status === 404) {
+            errorMessage = 'Payment service is not available. The Stripe checkout function needs to be deployed to your Supabase project.';
+          } else {
             errorMessage = `${errorMessage} (${response.status}: ${response.statusText})`;
           }
         }
