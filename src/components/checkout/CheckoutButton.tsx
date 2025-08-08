@@ -24,8 +24,8 @@ export function CheckoutButton({ priceId, mode, className = '', children }: Chec
 
       console.log('Redirecting to payment link:', paymentLink);
 
-      // Redirect to the payment link
-      window.location.href = paymentLink;
+      // Open payment link in new tab to avoid iframe restrictions
+      window.open(paymentLink, '_blank', 'noopener,noreferrer');
 
     } catch (error) {
       console.error('Checkout error:', error);
